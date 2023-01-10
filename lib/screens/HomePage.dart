@@ -27,28 +27,30 @@ class _ProviderDemoScreenState extends State<ProviderDemoScreen> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: postModel.loading?Center(
-          child: Container(
-            child: CircularProgressIndicator(),
-          ),
-        ):Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 40, bottom: 20),
-                child: Text(
-                  postModel.post!.title,
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        child: postModel.loading
+            ? Center(
+                child: Container(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 40, bottom: 20),
+                      child: Text(
+                        postModel.post!.title,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                    ),
+                    Container(
+                      child: Text(postModel.post!.body),
+                    ),
+                  ],
                 ),
               ),
-              Container(
-                child: Text(postModel.post!.body),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
