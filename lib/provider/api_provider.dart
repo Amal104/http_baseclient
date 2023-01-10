@@ -1,18 +1,18 @@
+import 'package:baseclient/Services/BaseClient.dart';
+import 'package:baseclient/controller/test_controller.dart';
+import 'package:flutter/cupertino.dart';
+import '../model/Product_Model.dart';
 
-// import 'package:baseclient/controller/test_controller.dart';
-// import 'package:baseclient/model/Product_Model.dart';
-// import 'package:flutter/material.dart';
 
-// class DataClass extends ChangeNotifier {
-//   var controller = TestController();
-//   Products? post;
-//   bool loading = false;
+class DataClass extends ChangeNotifier {
+  DataModel? post;
+  bool loading = false;
 
-//   getPostData() async {
-//     loading = true;
-//     post = (await (controller.getData()))!;
-//     loading = false;
+  getPostData() async {
+    loading = true;
+    post = (await BaseClient().get("https://jsonplaceholder.typicode.com","/posts/1"))!;
+    loading = false;
 
-//     notifyListeners();
-//   }
-// }
+    notifyListeners();
+  }
+}

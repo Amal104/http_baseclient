@@ -1,24 +1,38 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:baseclient/Services/App_exceptions.dart';
 import 'package:http/http.dart' as http;
+
+import '../model/Product_Model.dart';
 class BaseClient
 {
   static const int TimeOut = 20;
   //GET
   Future<dynamic> get(String baseUrl,String api)async{
+     DataModel? result;
     var uri = Uri.parse(baseUrl+api);
     try{
       var response = await http.get(uri).timeout(Duration(seconds:TimeOut ));
-      return _processResponce(response);
+       if (response.statusCode == 200) {
+      final item = json.decode(response.body);
+      result = DataModel.fromJson(item);
+    } else {
+      print("error");
     }
-    on SocketException{
-      throw FetchDataException('No internet connection', uri.toString());
-    }
-    on TimeoutException{
-      throw ApiNotRespondingException('Api not responding in  time', uri.toString());
-    }
+  } catch (e) {
+    log(e.toString());
+  }
+  return result;
+      // return _processResponce(response);
+    // }
+    // on SocketException{
+    //   throw FetchDataException('No internet connection', uri.toString());
+    // }
+    // on TimeoutException{
+    //   throw ApiNotRespondingException('Api not responding in  time', uri.toString());
+    // }
     
   }
 

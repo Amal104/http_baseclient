@@ -1,5 +1,7 @@
+import 'package:baseclient/provider/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/HomePage.dart';
 
@@ -13,13 +15,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // useMaterial3: true,
-        primarySwatch: Colors.deepPurple,
-      ),
-      home: const HomePage(),
-    );
+    return ChangeNotifierProvider(create: (context)=>DataClass(),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.deepPurple,
+          ),
+        home:ProviderDemoScreen()
+      ),);
   }
 }

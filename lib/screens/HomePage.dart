@@ -1,37 +1,55 @@
-import 'package:baseclient/Services/BaseClient.dart';
-import 'package:baseclient/Widgets/baseWidget.dart';
-import 'package:baseclient/controller/test_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
+import '../provider/api_provider.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class ProviderDemoScreen extends StatefulWidget {
+  const ProviderDemoScreen({Key? key}) : super(key: key);
+
+  @override
+  _ProviderDemoScreenState createState() => _ProviderDemoScreenState();
+}
+
+class _ProviderDemoScreenState extends State<ProviderDemoScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final postModel = Provider.of<DataClass>(context, listen: false);
+    postModel.getPostData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = TestController();
-    return basewidget(
+    final postModel = Provider.of<DataClass>(context);
+    return Scaffold(
       appBar: AppBar(
-      backgroundColor: Colors.deepPurple,
-      title: Text('Baseclient',style: TextStyle(color: Colors.white,fontSize: 25.0,fontWeight: FontWeight.bold),),
-      leading: Icon(Icons.adobe,color: Colors.white,size: 30,),
-      leadingWidth: 18,
-      elevation: 0.0,
+        title: Text("BaseClient"),
       ),
-      Body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(onPressed: (){
-           controller.getData();
-          }, child: Text('Get Data')),
-           ElevatedButton(onPressed: (){
-           controller.postData();
-          }, child: Text('Post Data')),
-        ],
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: postModel.loading?Center(
+          child: Container(
+            child: CircularProgressIndicator(),
+          ),
+        ):Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 40, bottom: 20),
+                child: Text(
+                  postModel.post!.title,
+                  style:
+                  TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+              ),
+              Container(
+                child: Text(postModel.post!.body),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-} 
+}
